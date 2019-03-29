@@ -36,7 +36,7 @@ public:
 quadrado base(0, 0, 0, 5.0, 0, 0, 0);
 quadrado central1(0, 5, 0, 5.0, 1, 0, 0, 0);
 quadrado central2(0, 10, 0, 5.0, 0, 1, 0, 0);
-quadrado topo(0, 14, 0, 5.0, 0.5, 0.8, 1, 0);
+quadrado topo(0, 15, 0, 5.0, 0.5, 0.8, 1, 0);
 
 float anglex = 0;
 float angley = 0;
@@ -92,6 +92,8 @@ void display() {
 		glutWireCube(central1.lado);
 	glPopMatrix();
 
+	glRotatef(central2.angle, 0, 0, 1);
+
 	glPushMatrix();
 		glColor3f(central2.R, central2.G, central2.B);
 		glTranslatef(central2.x, central2.y, central2.z);
@@ -100,11 +102,14 @@ void display() {
 		glutWireCube(central2.lado);
 	glPopMatrix();
 
+	glRotatef(topo.angle, 0, 0, 1);
+
 	glPushMatrix();
 		glColor3f(topo.R, topo.G, topo.B);
 		glTranslatef(topo.x, topo.y, topo.z);
 		glRotatef(anglex, 1, 0, 0);
 		glRotatef(angley, 0, 1, 0);
+		glScalef(1, 1.25, 1);
 		glutWireCube(topo.lado);
 	glPopMatrix();
 
@@ -134,18 +139,20 @@ void keyboardAWSD(unsigned char key, int x, int y) {
 		central1.angle += 5;
 	}
 
-	if (key == 87 || key == 'w') { // W
-		base.y += 0.1;
+	// ROTAÇÃO DO VERDE
+	if (key == 'W' || key == 'w') { // VAI PRA ESQUERDA
+		central2.angle -= 5;
 	}
-	if (key == 83 || key == 's') { // S
-		base.y -= 0.1;
-	}
-	if (key == 68 || key == 'd') { // D
-		base.x += 0.1;
+	if (key == 'S' || key == 's') { // VAI PRA DIREITA
+		central2.angle += 5;
 	}
 
-	if (key == 69 || key == 'e') { // E
-		base.z += 0.1;
+	// ROTAÇÃO DO AZUL
+	if (key == 'E' || key == 'e') { // VAI PRA ESQUERDA
+		topo.angle -= 5;
+	}
+	if (key == 'D' || key == 'd') { // VAI PRA DIREITA
+		topo.angle += 5;
 	}
 }
 
