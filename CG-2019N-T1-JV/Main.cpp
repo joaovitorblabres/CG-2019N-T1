@@ -36,31 +36,36 @@ public:
 quadrado base(0, 0, 0, 5.0, 0, 0, 0);
 quadrado central1(0, 5, 0, 5.0, 1, 0, 0, 0);
 quadrado central2(0, 5, 0, 5.0, 0, 1, 0, 0);
-quadrado topo(0, 5, 0, 5.0, 0.5, 0.8, 1, 0);
+quadrado topo(0, 5, 0, 5.0, 0.5f, 0.8f, 1, 0);
 
-float angley = 0;
+GLfloat angley = 0;
+GLfloat positionX = 0;
 
 void renderCoordinateAxis()
 {
+	// X axis - green color
 	glColor3f(0, 1, 0);
 	glBegin(GL_LINES);
-	glVertex2f(0.0, 10.0);
-	glVertex2f(-10.0, 0.0);
+		// Left side, negative X
+		glVertex2f(-50.0, 0.0);
+		glVertex2f(0.0, 0.0);
 
-	glVertex2f(0.0, 0.0);
-	glVertex2f(0.0, 0.0);
+		// Right side, positive X
+		glVertex2f(0.0, 0.0);
+		glVertex2f(50.0, 0.0);
 	glEnd();
 
+	// Y axis - blue color
 	glColor3f(0, 0, 1);
 	glBegin(GL_LINES);
+		// Top side, positive Y
+		glVertex2f(0.0, 0.0);
+		glVertex2f(0.0, 50.0);
 
-	glVertex2f(0.0, 0.0);
-	glVertex2f(0.0, 0.0);
-
-	glVertex2f(0.0, 0.0);
-	glVertex2f(0.0, 0.0);
+		// Bottom side, negative Y
+		glVertex2f(0.0, 0.0);
+		glVertex2f(0.0, -50.0);
 	glEnd();
-
 }
 
 void display() {
@@ -74,6 +79,7 @@ void display() {
 	glTranslatef(0, -5.0, -30.0f);
 	
 	glPushMatrix();
+		glTranslatef(positionX, 0, 0);
 		// PLOT => PRET0
 		glColor3f(base.R, base.G, base.B);
 		glTranslatef(base.x, base.y, base.z);
@@ -144,6 +150,14 @@ void keyboardAWSD(unsigned char key, int x, int y) {
 	}
 	if ((key == 'D' || key == 'd') && topo.angle <= 30) { // VAI PRA DIREITA
 		topo.angle += 5;
+	}
+
+	// MOVIMENTO EM X
+	if (key == 'Z' || key == 'z') { // VAI PRA ESQUERDA
+		positionX -= 1;
+	}
+	if (key == 'X' || key == 'x') { // VAI PRA DIREITA
+		positionX += 1;
 	}
 }
 
