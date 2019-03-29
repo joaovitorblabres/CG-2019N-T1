@@ -36,35 +36,34 @@ public:
 quadrado base(0, 0, 0, 5.0, 0, 0, 0);
 quadrado central1(0, 5, 0, 5.0, 1, 0, 0, 0);
 quadrado central2(0, 5, 0, 5.0, 0, 1, 0, 0);
-quadrado topo(0, 5, 0, 5.0, 0.5f, 0.8f, 1, 0);
+quadrado topo(0, 6, 0, 5.0, 0.5f, 0.8f, 1, 0);
+quadrado garra1(1.5, 4.8, 0, 1, 1, 0.5, 0);
+quadrado garra2(-1.5, 4.8, 0, 1, 1, 0.5, 0.5);
 
 GLfloat angley = 0;
+GLfloat anglex = 0;
 GLfloat positionX = 0;
 
-void renderCoordinateAxis()
-{
-	// X axis - green color
-	glColor3f(0, 1, 0);
+void renderCoordinateAxis(){
 	glBegin(GL_LINES);
-		// Left side, negative X
+		// X axis - green color
+		glColor3f(0, 1, 0);
 		glVertex2f(-50.0, 0.0);
-		glVertex2f(0.0, 0.0);
-
-		// Right side, positive X
-		glVertex2f(0.0, 0.0);
 		glVertex2f(50.0, 0.0);
 	glEnd();
 
-	// Y axis - blue color
-	glColor3f(0, 0, 1);
 	glBegin(GL_LINES);
-		// Top side, positive Y
-		glVertex2f(0.0, 0.0);
-		glVertex2f(0.0, 50.0);
-
-		// Bottom side, negative Y
-		glVertex2f(0.0, 0.0);
+		// Y axis - blue color
+		glColor3f(0, 0, 1);
 		glVertex2f(0.0, -50.0);
+		glVertex2f(0.0, 50.0);
+	glEnd();
+
+	glBegin(GL_LINES);
+		// Y axis - blue color
+		glColor3f(0, 0, 1);
+		glVertex3f(0.0, 0.0, -50.0);
+		glVertex3f(0.0, 0.0, -50.0);
 	glEnd();
 }
 
@@ -74,16 +73,20 @@ void display() {
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	renderCoordinateAxis();
 
-	glTranslatef(0, -5.0, -30.0f);
+	glTranslatef(0, -10.0, -40.0f); // "ALTERA" VISÃO DA "CAMERA"
+	renderCoordinateAxis();
 	
 	glPushMatrix();
+		// ROTAÇÕES GLOBAIS
+		glRotatef(angley, 0, 1, 0);
+		glRotatef(anglex, 1, 0, 0);
 		glTranslatef(positionX, 0, 0);
+
+
 		// PLOT => PRET0
 		glColor3f(base.R, base.G, base.B);
 		glTranslatef(base.x, base.y, base.z);
-		glRotatef(angley, 0, 1, 0);
 		glutWireCube(base.lado);
 
 		// ROTAÇÃO => VERMELHO
@@ -93,6 +96,14 @@ void display() {
 		glTranslatef(central1.x, central1.y, central1.z);
 		glutWireCube(central1.lado);
 
+		GLUquadricObj *quadratic;
+		quadratic = gluNewQuadric();
+		glPushMatrix();
+			glRotatef(-90.0, 1.0, 0.0, 0.0);
+			glTranslatef(0, 0, -2.5);
+			gluCylinder(quadratic, 3, 3, 0.5, 32, 32);
+		glPopMatrix();
+
 		// ROTAÇÃO => VERDE
 		glRotatef(central2.angle, 0, 0, 1);
 		// PLOT => VERDE
@@ -100,14 +111,43 @@ void display() {
 		glTranslatef(central2.x, central2.y, central2.z);
 		glutWireCube(central2.lado);
 
+		glPushMatrix();
+			glRotatef(-90.0, 1.0, 0.0, 0.0);
+			glTranslatef(0, 0, -2.5);
+			gluCylinder(quadratic, 3, 3, 0.5, 32, 32);
+		glPopMatrix();
+
 		// ROTAÇÃO => AZUL
 		glRotatef(topo.angle, 0, 0, 1);
-		//PLOT => AZUL
+		// PLOT => AZUL
 		glColor3f(topo.R, topo.G, topo.B);
 		glTranslatef(topo.x, topo.y, topo.z);
-		glScalef(1, 1.25, 1);
+		glScalef(1, 1.75, 1);
 		glutWireCube(topo.lado);
 
+		glPushMatrix();
+			glRotatef(-90.0, 1.0, 0.0, 0.0);
+			glTranslatef(0, 0, -2.5);
+			gluCylinder(quadratic, 3, 3, 0.5, 32, 32);
+		glPopMatrix();
+
+		// GARRAS
+
+		glPushMatrix();
+			glColor3f(garra1.R, garra1.G, garra1.B);
+			glTranslatef(garra1.x, garra1.y, garra1.z);
+			glRotatef(garra1.angle, 0, 0, 1);
+			glScalef(1, 5, 1);
+			glutWireCube(garra1.lado);
+		glPopMatrix();
+
+		glPushMatrix();
+			glColor3f(garra2.R, garra2.G, garra2.B);
+			glTranslatef(garra2.x, garra2.y, garra2.z);
+			glRotatef(garra2.angle, 0, 0, 1);
+			glScalef(1, 5, 1);
+			glutWireCube(garra2.lado);
+		glPopMatrix();
 	glPopMatrix();
 
 	glutSwapBuffers();
@@ -119,11 +159,19 @@ void update(int x) {
 }
 
 void keyboard(int key, int x, int y) {
-	if (key == GLUT_KEY_RIGHT) { // RIGHT
+	if (key == GLUT_KEY_RIGHT) { // GIRA PARA DIREITA
 		angley += 5;
 	}
-	if (key == GLUT_KEY_LEFT) { // LEFT
+	if (key == GLUT_KEY_LEFT) { // GIRA PARA ESQUERDA
 		angley -= 5;
+	}
+
+	// EXTRA DO EXTRA
+	if (key == GLUT_KEY_UP) { // GIRA NO X
+		anglex += 5;
+	}
+	if (key == GLUT_KEY_DOWN) { // GIRA NO X
+		anglex -= 5;
 	}
 }
 
@@ -159,6 +207,17 @@ void keyboardAWSD(unsigned char key, int x, int y) {
 	if (key == 'X' || key == 'x') { // VAI PRA DIREITA
 		positionX += 1;
 	}
+
+
+	// MOVIMENTO DAS GARRAS
+	if ((key == 'R' || key == 'r') && garra1.angle >= -5) { // ABRE
+		garra1.angle -= 1;
+		garra2.angle += 1;
+	}
+	if ((key == 'F' || key == 'f') && garra1.angle <= 20) { // FECHA
+		garra1.angle += 1;
+		garra2.angle -= 1;
+	}
 }
 
 void initView() {
@@ -167,7 +226,7 @@ void initView() {
 	glMatrixMode(GL_PROJECTION);
 
 	glLoadIdentity();
-	glFrustum(-1.0, 1.0, -1.0, 1.0, 1.5, 50.0);
+	glFrustum(-1.0, 1.0, -1.0, 1.0, 1.5, 200.0);
 
 	glMatrixMode(GL_MODELVIEW);
 }
