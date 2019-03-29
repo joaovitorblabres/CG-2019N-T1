@@ -35,8 +35,8 @@ public:
 
 quadrado base(0, 0, 0, 5.0, 0, 0, 0);
 quadrado central1(0, 5, 0, 5.0, 1, 0, 0, 0);
-quadrado central2(0, 10, 0, 5.0, 0, 1, 0, 0);
-quadrado topo(0, 15, 0, 5.0, 0.5, 0.8, 1, 0);
+quadrado central2(0, 5, 0, 5.0, 0, 1, 0, 0);
+quadrado topo(0, 5, 0, 5.0, 0.5, 0.8, 1, 0);
 
 float anglex = 0;
 float angley = 0;
@@ -75,42 +75,41 @@ void display() {
 	glTranslatef(0, -5.0, -30.0f);
 	
 	glPushMatrix();
+		// PLOT => PRET0
 		glColor3f(base.R, base.G, base.B);
 		glTranslatef(base.x, base.y, base.z);
 		glRotatef(anglex, 1, 0, 0);
 		glRotatef(angley, 0, 1, 0);
 		glutWireCube(base.lado);
-	glPopMatrix();
 
-	glRotatef(central1.angle, 0, 0, 1);
-
-	glPushMatrix();
+		// ROTA플O => VERMELHO
+		glRotatef(central1.angle, 0, 0, 1);
+		// PLOT => VERMELHO
 		glColor3f(central1.R, central1.G, central1.B);
 		glTranslatef(central1.x, central1.y, central1.z);
 		glRotatef(anglex, 1, 0, 0);
 		glRotatef(angley, 0, 1, 0);
 		glutWireCube(central1.lado);
-	glPopMatrix();
 
-	glRotatef(central2.angle, 0, 0, 1);
-
-	glPushMatrix();
+		// ROTA플O => VERDE
+		glRotatef(central2.angle, 0, 0, 1);
+		// PLOT => VERDE
 		glColor3f(central2.R, central2.G, central2.B);
 		glTranslatef(central2.x, central2.y, central2.z);
 		glRotatef(anglex, 1, 0, 0);
 		glRotatef(angley, 0, 1, 0);
 		glutWireCube(central2.lado);
-	glPopMatrix();
 
-	glRotatef(topo.angle, 0, 0, 1);
-
-	glPushMatrix();
+		// ROTA플O => AZUL
+		glRotatef(topo.angle, 0, 0, 1);
+		//PLOT => AZUL
 		glColor3f(topo.R, topo.G, topo.B);
 		glTranslatef(topo.x, topo.y, topo.z);
 		glRotatef(anglex, 1, 0, 0);
 		glRotatef(angley, 0, 1, 0);
 		glScalef(1, 1.25, 1);
 		glutWireCube(topo.lado);
+
 	glPopMatrix();
 
 	glutSwapBuffers();
@@ -132,26 +131,26 @@ void keyboard(int key, int x, int y) {
 
 void keyboardAWSD(unsigned char key, int x, int y) {
 	// ROTA플O DO VERMELHO
-	if (key == 'Q' || key == 'q') { // VAI PRA ESQUERDA
+	if ((key == 'Q' || key == 'q') && central1.angle >= -30) { // VAI PRA ESQUERDA
 		central1.angle -= 5;
 	}
-	if (key == 'A' || key == 'a') { // VAI PRA DIREITA
+	if ((key == 'A' || key == 'a' ) && central1.angle <= 30) { // VAI PRA DIREITA
 		central1.angle += 5;
 	}
 
 	// ROTA플O DO VERDE
-	if (key == 'W' || key == 'w') { // VAI PRA ESQUERDA
+	if ((key == 'W' || key == 'w') && central2.angle >= -30) { // VAI PRA ESQUERDA
 		central2.angle -= 5;
 	}
-	if (key == 'S' || key == 's') { // VAI PRA DIREITA
+	if ((key == 'S' || key == 's') && central2.angle <= 30) { // VAI PRA DIREITA
 		central2.angle += 5;
 	}
 
 	// ROTA플O DO AZUL
-	if (key == 'E' || key == 'e') { // VAI PRA ESQUERDA
+	if ((key == 'E' || key == 'e') && topo.angle >= -30) { // VAI PRA ESQUERDA
 		topo.angle -= 5;
 	}
-	if (key == 'D' || key == 'd') { // VAI PRA DIREITA
+	if ((key == 'D' || key == 'd') && topo.angle <= 30) { // VAI PRA DIREITA
 		topo.angle += 5;
 	}
 }
