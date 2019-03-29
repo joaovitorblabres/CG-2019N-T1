@@ -38,7 +38,6 @@ quadrado central1(0, 5, 0, 5.0, 1, 0, 0, 0);
 quadrado central2(0, 5, 0, 5.0, 0, 1, 0, 0);
 quadrado topo(0, 5, 0, 5.0, 0.5, 0.8, 1, 0);
 
-float anglex = 0;
 float angley = 0;
 
 void renderCoordinateAxis()
@@ -78,7 +77,6 @@ void display() {
 		// PLOT => PRET0
 		glColor3f(base.R, base.G, base.B);
 		glTranslatef(base.x, base.y, base.z);
-		glRotatef(anglex, 1, 0, 0);
 		glRotatef(angley, 0, 1, 0);
 		glutWireCube(base.lado);
 
@@ -87,8 +85,6 @@ void display() {
 		// PLOT => VERMELHO
 		glColor3f(central1.R, central1.G, central1.B);
 		glTranslatef(central1.x, central1.y, central1.z);
-		glRotatef(anglex, 1, 0, 0);
-		glRotatef(angley, 0, 1, 0);
 		glutWireCube(central1.lado);
 
 		// ROTAÇÃO => VERDE
@@ -96,8 +92,6 @@ void display() {
 		// PLOT => VERDE
 		glColor3f(central2.R, central2.G, central2.B);
 		glTranslatef(central2.x, central2.y, central2.z);
-		glRotatef(anglex, 1, 0, 0);
-		glRotatef(angley, 0, 1, 0);
 		glutWireCube(central2.lado);
 
 		// ROTAÇÃO => AZUL
@@ -105,8 +99,6 @@ void display() {
 		//PLOT => AZUL
 		glColor3f(topo.R, topo.G, topo.B);
 		glTranslatef(topo.x, topo.y, topo.z);
-		glRotatef(anglex, 1, 0, 0);
-		glRotatef(angley, 0, 1, 0);
 		glScalef(1, 1.25, 1);
 		glutWireCube(topo.lado);
 
