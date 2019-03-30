@@ -1,6 +1,5 @@
 #include <GL/glut.h>
 #include <GL/gl.h>
-#include <iostream>
 
 const int WIDTH = 800;
 const int HEIGHT = 800;
@@ -235,7 +234,7 @@ int main(int argc, char** argv) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
 	glutInitWindowSize(WIDTH, HEIGHT);
-	glutCreateWindow("Transformation - Simple");
+	glutCreateWindow("Trabalho 1 - CG - UFFS - 2019/1 - João Vitor B. Labres");
 	glutDisplayFunc(display);
 	glutSpecialFunc(keyboard);
 	glutKeyboardFunc(keyboardAWSD);
